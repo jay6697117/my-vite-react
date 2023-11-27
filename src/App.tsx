@@ -84,7 +84,7 @@ const App: FC = () => {
 
   return (
     <div className='app'>
-      {/* <div className='text-lg'>tailwind</div> */}
+      <div className='text-6xl text-red-600 bg-gray-600 p-4 rounded-none'>tailwind</div>
       <header className='app-header'>
         <h1>我的看板</h1>
         <img src={logo} className='app-logo' alt='logo' />

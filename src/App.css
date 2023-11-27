@@ -6,11 +6,6 @@
   text-align: center;
 }
 
-.app-logo {
-  height: 80%;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .app-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -19,7 +14,7 @@
 
 .app-header {
   flex: 1;
-  margin: 1rem 1rem 0;
+  margin:  0 1rem;
   border-radius: 1rem;
   background-color: #282c34;
   min-height: 5rem;
@@ -27,8 +22,15 @@
   flex-direction: row-reverse;
   align-items: center;
   justify-content: center;
-  /* font-size: calc(10px + 2vmin); */
+  font-size: 2.5vmin;
+  font-weight: 600;
   color: white;
+}
+
+.app-logo {
+  height: 70%;
+  pointer-events: none;
+  margin-right: 10px;
 }
 
 
