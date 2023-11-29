@@ -15,6 +15,7 @@ const App: FC = () => {
     { id: nanoid(), title: '开发任务-5', status: '22-05-22 18:15' },
     { id: nanoid(), title: '测试任务-3', status: '22-05-22 18:15' }
   ])
+
   const ongoingList = [
     { id: nanoid(), title: '开发任务-4', status: '22-05-22 18:15' },
     { id: nanoid(), title: '开发任务-6', status: '22-05-22 18:15' },
@@ -39,20 +40,31 @@ const App: FC = () => {
   //   );
   // };
 
-  const KanbanCard: FC<{
+  interface KanbanCardProps {
     title: string
     status: string
-  }> = ({ title, status }) => {
+  }
+
+  interface KanbanNewCardProps {
+    onSubmit: (title: string) => void
+  }
+
+  interface KanbanBoardProps {
+    children: React.ReactNode
+  }
+
+  interface KanbanColumnProps {
+    className: string
+    children: React.ReactNode
+  }
+
+  const KanbanCard: FC<KanbanCardProps> = ({ title, status }) => {
     return (
       <li className='kanban-card'>
         <div className='card-title'>{title}</div>
         <div className='card-status'>{status}</div>
       </li>
     )
-  }
-
-  interface KanbanNewCardProps {
-    onSubmit: (title: string) => void
   }
 
   const KanbanNewCard: FC<KanbanNewCardProps> = ({ onSubmit }) => {
@@ -77,6 +89,15 @@ const App: FC = () => {
     )
   }
 
+  const KanbanBoard: FC<KanbanBoardProps> = ({ children }) => {
+    return <main className='kanban-board'>{children}</main>
+  }
+
+  const KanbanColumn: FC<KanbanColumnProps> = ({ children, className }) => {
+    const combinedClassName = `kanban-column ${className}`
+    return <section className={combinedClassName}>{children}</section>
+  }
+
   const handleSubmit = (title: string) => {
     setTodoList(currentTodoList => [{ id: nanoid(), title, status: new Date().toDateString() }, ...currentTodoList])
     setShowAdd(false)
@@ -89,8 +110,8 @@ const App: FC = () => {
         <h1>我的看板</h1>
         <img src={logo} className='app-logo' alt='logo' />
       </header>
-      <main className='kanban-board'>
-        <section className='kanban-column column-todo'>
+      <KanbanBoard>
+        <KanbanColumn className='column-todo'>
           <h2>
             待处理
             <button disabled={showAdd} onClick={handleAdd}>
@@ -103,24 +124,24 @@ const App: FC = () => {
               <KanbanCard key={item.id} {...item} />
             ))}
           </ul>
-        </section>
-        <section className='kanban-column column-ongoing'>
+        </KanbanColumn>
+        <KanbanColumn className='column-ongoing'>
           <h2>进行中</h2>
           <ul>
             {ongoingList.map(item => (
               <KanbanCard key={item.id} {...item} />
             ))}
           </ul>
-        </section>
-        <section className='kanban-column column-done'>
+        </KanbanColumn>
+        <KanbanColumn className='column-done'>
           <h2>已完成</h2>
           <ul>
             {doneList.map(item => (
               <KanbanCard key={item.id} {...item} />
             ))}
           </ul>
-        </section>
-      </main>
+        </KanbanColumn>
+      </KanbanBoard>
     </div>
   )
 }
