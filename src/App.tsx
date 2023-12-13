@@ -55,6 +55,7 @@ const App: FC = () => {
 
   interface KanbanColumnProps {
     className: string
+    title: React.ReactNode
     children: React.ReactNode
   }
 
@@ -93,9 +94,26 @@ const App: FC = () => {
     return <main className='kanban-board'>{children}</main>
   }
 
-  const KanbanColumn: FC<KanbanColumnProps> = ({ children, className }) => {
+  const KanbanColumn: FC<KanbanColumnProps> = ({ children, className, title }) => {
     const combinedClassName = `kanban-column ${className}`
-    return <section className={combinedClassName}>{children}</section>
+    return (
+      <section className={combinedClassName}>
+        <h2>{title}</h2>
+        <ul>{children}</ul>
+      </section>
+    )
+  }
+
+  const TodoTitle:FC<{children:React.ReactNode}> = ({children}) => {
+    return (
+      <>
+        待处理
+        <button disabled={showAdd} onClick={handleAdd}>
+          ⊕ 添加新卡片
+        </button>
+        <span> || children:{children}</span>
+      </>
+    )
   }
 
   const handleSubmit = (title: string) => {
@@ -111,35 +129,21 @@ const App: FC = () => {
         <img src={logo} className='app-logo' alt='logo' />
       </header>
       <KanbanBoard>
-        <KanbanColumn className='column-todo'>
-          <h2>
-            待处理
-            <button disabled={showAdd} onClick={handleAdd}>
-              ⊕ 添加新卡片
-            </button>
-          </h2>
-          <ul>
-            {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-            {todoList.map(item => (
-              <KanbanCard key={item.id} {...item} />
-            ))}
-          </ul>
+        <KanbanColumn className='column-todo' title={<TodoTitle><button style={{background:'red'}}>123</button></TodoTitle>}>
+          {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
+          {todoList.map(item => (
+            <KanbanCard key={item.id} {...item} />
+          ))}
         </KanbanColumn>
-        <KanbanColumn className='column-ongoing'>
-          <h2>进行中</h2>
-          <ul>
-            {ongoingList.map(item => (
-              <KanbanCard key={item.id} {...item} />
-            ))}
-          </ul>
+        <KanbanColumn className='column-ongoing' title='进行中'>
+          {ongoingList.map(item => (
+            <KanbanCard key={item.id} {...item} />
+          ))}
         </KanbanColumn>
-        <KanbanColumn className='column-done'>
-          <h2>已完成</h2>
-          <ul>
-            {doneList.map(item => (
-              <KanbanCard key={item.id} {...item} />
-            ))}
-          </ul>
+        <KanbanColumn className='column-done' title='已完成'>
+          {doneList.map(item => (
+            <KanbanCard key={item.id} {...item} />
+          ))}
         </KanbanColumn>
       </KanbanBoard>
     </div>
