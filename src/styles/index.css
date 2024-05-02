@@ -1,4 +1,4 @@
-@import "./atom.css";
+@import './atom.css';
 
 /* :root 这个 CSS 伪类匹配文档树的根元素。对于 HTML 来说，:root 表示 <html> 元素，除了优先级更高之外，与 html 选择器相同 */
 :root {
@@ -26,6 +26,11 @@ a:hover {
   color: #535bf2;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -38,7 +43,6 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
 
 button {
   border-radius: 8px;
@@ -71,12 +75,10 @@ button:focus-visible {
   }
 }
 
-
 button:disabled {
   color: #b3b3b3;
   cursor: not-allowed;
 }
-
 
 #root {
   width: 100%;

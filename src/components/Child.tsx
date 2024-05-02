@@ -1,7 +1,12 @@
 const Child = () => {
+  const users = ['章三', '李四', '王五']
   return (
     <>
-    <h1>Child</h1>
+      {users.map((item, index) => (
+        <div key={item}>
+          {item} - {index}
+        </div>
+      ))}
     </>
   )
 }
