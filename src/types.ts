@@ -1,4 +1,5 @@
-export interface ICustomCompProps {
+export interface CustomCompProps {
   name?: string
-  age?: number
+  age?: number,
+  children?: React.ReactNode
 }
