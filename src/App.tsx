@@ -28,14 +28,22 @@ import ClassComp from './components/ClassComp'
 } */
 
 import UserNameContext from './contexts/UserNameContext'
+interface LayoutProps {
+  name?: string
+  age?: number
+}
+
+
 const App = () => {
   const username = '张三'
+  // const layoutProps: LayoutProps = { name: 'hello', age: 22 }
 
   return (
     <UserNameContext.Provider value={username}>
-      <Layout>
-        <div>Layout children</div>
-      </Layout>
+      {/* <Layout {...layoutProps} >
+        <span className='text-red-700'>Layout children</span>
+      </Layout> */}
+      <Layout />
       <ClassComp />
     </UserNameContext.Provider>
   )
