@@ -7,7 +7,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   return (
     <>
-      <div className='p-4 bg-red-300 h-full'>
+      <div className='p-4 bg-red-300 h-auto'>
         <div>{children}</div>
         <User />
       </div>

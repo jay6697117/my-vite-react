@@ -5,6 +5,7 @@ import './App.css'
 // import Loading from './components/Loading'
 // import { CustomCompProps } from './types'
 import Layout from './components/Layout'
+import ClassComp from './components/ClassComp'
 
 /* const App: FC = () => {
   const customCompProps: CustomCompProps = { name: 'hello', age: 22 }
@@ -26,9 +27,8 @@ import Layout from './components/Layout'
   )
 } */
 
-import UserNameContext from './UserNameContext'
+import UserNameContext from './contexts/UserNameContext'
 const App = () => {
-
   const username = '张三'
 
   return (
@@ -36,6 +36,7 @@ const App = () => {
       <Layout>
         <div>Layout children</div>
       </Layout>
+      <ClassComp />
     </UserNameContext.Provider>
   )
 }

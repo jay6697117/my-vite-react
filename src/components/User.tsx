@@ -1,4 +1,4 @@
-import UserNameContext from '../UserNameContext'
+import UserNameContext from '../contexts/UserNameContext'
 
 const User = () => {
   return (
