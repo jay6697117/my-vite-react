@@ -1,6 +1,8 @@
-import { JSX } from 'react/jsx-runtime'
+// import { JSX } from 'react/jsx-runtime'
+// import { createPortal } from 'react-dom'
 import './App.css'
-import { useState } from 'react'
+import { useState, cloneElement, JSXElementConstructor, ReactElement } from 'react'
+
 // import CustomComp from './components/CustomComp'
 // import Child from './components/Child'
 // import Error from './components/Error'
@@ -58,6 +60,8 @@ import { useState } from 'react'
 //   return <Form onSubmit={submit} />
 // }
 
+// HOC
+/*
 function MyComponent(props: { name: string }) {
   return <div className='p-4 bg-slate-100 text-[4rem]'>hello {props.name}</div>
 }
@@ -81,6 +85,36 @@ const App = () => {
     setLoading(false)
   }, 3000)
   return <WithLoadingComp isLoading={loading} />
+} */
+
+// Portal 组件
+/*
+const App = ({ children }: any) => {
+  console.log('children', children)
+  const [loading, setLoading] = useState(true)
+  setTimeout(() => {
+    setLoading(false)
+  }, 3000)
+  if (loading) return createPortal(children, document.body)
+  return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件</h1>
+}
+*/
+
+type Props = {
+  children: ReactElement<any, string | JSXElementConstructor<any>>
+}
+
+function App({ children }: Props) {
+  console.log('children', children)
+  const [loading, setLoading] = useState(true)
+  setTimeout(() => {
+    setLoading(false)
+  }, 3000)
+  const cloneChildren = cloneElement(children, {
+    // 可以在这里修改 props
+  })
+  if (loading) return cloneChildren
+  return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件-克隆组件</h1>
 }
 
 export default App
