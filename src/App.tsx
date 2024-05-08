@@ -1,5 +1,6 @@
 // import { JSX } from 'react/jsx-runtime'
 // import { createPortal } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './App.css'
 import { useState, cloneElement, ReactElement, isValidElement } from 'react'
 
@@ -104,12 +105,11 @@ const App = ({ children }: any) => {
 //   children: ReactElement<any, string | JSXElementConstructor<any>>
 // }
 
-
 type Props = {
-  children: ReactElement
+  children?: ReactElement
 }
 
-function App({ children }: Props) {
+const App = ({ children }: Props) => {
   console.log('children', children)
   // const [loading, setLoading] = useState(true)
   // setTimeout(() => {
@@ -125,5 +125,12 @@ function App({ children }: Props) {
   if (isValidElement(children)) return children
   return <h1>人口组件没有children</h1>
 }
+
+const container = document.getElementById('container')!
+const root = createRoot(container)
+root.render(<App />)
+setTimeout(() => {
+  root.unmount()
+}, 3000)
 
 export default App
