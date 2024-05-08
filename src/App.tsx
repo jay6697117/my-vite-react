@@ -1,7 +1,7 @@
 // import { JSX } from 'react/jsx-runtime'
 // import { createPortal } from 'react-dom'
 import './App.css'
-import { useState, cloneElement, JSXElementConstructor, ReactElement } from 'react'
+import { useState, cloneElement, ReactElement, isValidElement } from 'react'
 
 // import CustomComp from './components/CustomComp'
 // import Child from './components/Child'
@@ -100,21 +100,30 @@ const App = ({ children }: any) => {
 }
 */
 
+// type Props = {
+//   children: ReactElement<any, string | JSXElementConstructor<any>>
+// }
+
+
 type Props = {
-  children: ReactElement<any, string | JSXElementConstructor<any>>
+  children: ReactElement
 }
 
 function App({ children }: Props) {
   console.log('children', children)
-  const [loading, setLoading] = useState(true)
-  setTimeout(() => {
-    setLoading(false)
-  }, 3000)
-  const cloneChildren = cloneElement(children, {
-    // 可以在这里修改 props
-  })
-  if (loading) return cloneChildren
-  return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件-克隆组件</h1>
+  // const [loading, setLoading] = useState(true)
+  // setTimeout(() => {
+  //   setLoading(false)
+  // }, 3000)
+  // const cloneChildren = cloneElement(children, {
+  //   // 可以在这里修改 props
+  // })
+  console.log('isValidElement(children)', isValidElement(children))
+  // console.log('isValidElement(cloneChildren)', isValidElement(cloneChildren))
+  // if (loading) return cloneChildren
+  // return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件-克隆组件</h1>
+  if (isValidElement(children)) return children
+  return <h1>人口组件没有children</h1>
 }
 
 export default App
