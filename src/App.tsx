@@ -1,153 +1,136 @@
-import { FC, SetStateAction, useState } from 'react'
-import logo from './assets/svgs/logo.svg'
+// import { JSX } from 'react/jsx-runtime'
+// import { createPortal } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './App.css'
-import { nanoid } from 'nanoid'
+import { useState, cloneElement, ReactElement, isValidElement } from 'react'
 
-const App: FC = () => {
-  const [showAdd, setShowAdd] = useState(false)
-  const handleAdd = () => {
-    setShowAdd(true)
-  }
+// import CustomComp from './components/CustomComp'
+// import Child from './components/Child'
+// import Error from './components/Error'
+// import Loading from './components/Loading'
+// import { CustomCompProps } from './types'
+// import Layout from './components/Layout'
+// import ClassComp from './components/ClassComp'
+// import Form from './components/Form'
 
-  const [todoList, setTodoList] = useState([
-    { id: nanoid(), title: '开发任务-1', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '开发任务-3', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '开发任务-5', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '测试任务-3', status: '22-05-22 18:15' }
-  ])
-
-  const ongoingList = [
-    { id: nanoid(), title: '开发任务-4', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '开发任务-6', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '测试任务-2', status: '22-05-22 18:15' }
-  ]
-  const doneList = [
-    { id: nanoid(), title: '开发任务-2', status: '22-05-22 18:15' },
-    { id: nanoid(), title: '测试任务-1', status: '22-05-22 18:15' }
-  ]
-
-  // const KanbanCard: FC<{
-  //   title: string;
-  //   status: string;
-  // }> = (props) => {
-  //   console.log('props :>> ', props);
-  //   const { title, status } = props;
-  //   return (
-  //     <li className='kanban-card'>
-  //       <div className='card-title'>{title}</div>
-  //       <div className='card-status'>{status}</div>
-  //     </li>
-  //   );
-  // };
-
-  interface KanbanCardProps {
-    title: string
-    status: string
-  }
-
-  interface KanbanNewCardProps {
-    onSubmit: (title: string) => void
-  }
-
-  interface KanbanBoardProps {
-    children: React.ReactNode
-  }
-
-  interface KanbanColumnProps {
-    className: string
-    title: React.ReactNode
-    children: React.ReactNode
-  }
-
-  const KanbanCard: FC<KanbanCardProps> = ({ title, status }) => {
-    return (
-      <li className='kanban-card'>
-        <div className='card-title'>{title}</div>
-        <div className='card-status'>{status}</div>
-      </li>
-    )
-  }
-
-  const KanbanNewCard: FC<KanbanNewCardProps> = ({ onSubmit }) => {
-    const [title, setTitle] = useState('')
-
-    const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-      setTitle(e.target.value)
-    }
-
-    const handleKeyDown = (e: { key: string }) => {
-      if (e.key === 'Enter') {
-        onSubmit(title)
-      }
-    }
-    return (
-      <li className='kanban-card'>
-        <h3>添加新卡片</h3>
-        <div className='card-title'>
-          <input type='text' value={title} onChange={handleChange} onKeyDown={handleKeyDown} />
-        </div>
-      </li>
-    )
-  }
-
-  const KanbanBoard: FC<KanbanBoardProps> = ({ children }) => {
-    return <main className='kanban-board'>{children}</main>
-  }
-
-  const KanbanColumn: FC<KanbanColumnProps> = ({ children, className, title }) => {
-    const combinedClassName = `kanban-column ${className}`
-    return (
-      <section className={combinedClassName}>
-        <h2>{title}</h2>
-        <ul>{children}</ul>
-      </section>
-    )
-  }
-
-  const TodoTitle:FC<{children:React.ReactNode}> = ({children}) => {
-    return (
-      <>
-        待处理
-        <button disabled={showAdd} onClick={handleAdd}>
-          ⊕ 添加新卡片
-        </button>
-        <span> || children:{children}</span>
-      </>
-    )
-  }
-
-  const handleSubmit = (title: string) => {
-    setTodoList(currentTodoList => [{ id: nanoid(), title, status: new Date().toDateString() }, ...currentTodoList])
-    setShowAdd(false)
-  }
+/* const App: FC = () => {
+  const customCompProps: CustomCompProps = { name: 'hello', age: 22 }
+  const isError = true
+  const isLoading = false
 
   return (
     <div className='app'>
-      <div className='text-6xl text-red-600 bg-gray-600 p-4 rounded-none'>tailwind</div>
-      <header className='app-header'>
-        <h1>我的看板</h1>
-        <img src={logo} className='app-logo' alt='logo' />
-      </header>
-      <KanbanBoard>
-        <KanbanColumn className='column-todo' title={<TodoTitle><button style={{background:'red'}}>123</button></TodoTitle>}>
-          {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-          {todoList.map(item => (
-            <KanbanCard key={item.id} {...item} />
-          ))}
-        </KanbanColumn>
-        <KanbanColumn className='column-ongoing' title='进行中'>
-          {ongoingList.map(item => (
-            <KanbanCard key={item.id} {...item} />
-          ))}
-        </KanbanColumn>
-        <KanbanColumn className='column-done' title='已完成'>
-          {doneList.map(item => (
-            <KanbanCard key={item.id} {...item} />
-          ))}
-        </KanbanColumn>
-      </KanbanBoard>
+      <div className='bg-slate-300 p-8' style={{ border: '10px solid red' }}>
+        Hello, JSX
+      </div>
+      <CustomComp {...customCompProps}>{isError ? <Error /> : isLoading ? <Loading /> : <Child />}</CustomComp>
+      <CustomComp {...customCompProps}>
+        {isError && <Error />}
+        {isLoading && <Loading />}
+        <Child />
+      </CustomComp>
     </div>
   )
+} */
+
+// import UserNameContext from './contexts/UserNameContext'
+// interface LayoutProps {
+//   name?: string
+//   age?: number
+// }
+
+// const App = () => {
+//   const username = '张三'
+//   // const layoutProps: LayoutProps = { name: 'hello', age: 22 }
+
+//   return (
+//     <UserNameContext.Provider value={username}>
+//       <Layout {...layoutProps} >
+//         <span className='text-red-700'>Layout children</span>
+//       </Layout>
+//       <Layout />
+//       <ClassComp />
+//     </UserNameContext.Provider>
+//   )
+// }
+
+// const App = () => {
+//   const submit = (data: any) => {
+//     console.log('父组件data: ', data)
+//   }
+//   return <Form onSubmit={submit} />
+// }
+
+// HOC
+/*
+function MyComponent(props: { name: string }) {
+  return <div className='p-4 bg-slate-100 text-[4rem]'>hello {props.name}</div>
 }
+
+function Loading() {
+  return <div className='p-4 bg-slate-100 text-red-600 text-[4rem]'>loading 666...</div>
+}
+
+const withLoadingFn = (MyComp: (props: { name: string }) => JSX.Element) => {
+  return (props: { isLoading: boolean }) => {
+    if (props.isLoading) return <Loading />
+    return <MyComp name='111' />
+  }
+}
+
+const WithLoadingComp = withLoadingFn(MyComponent)
+
+const App = () => {
+  const [loading, setLoading] = useState(true)
+  setTimeout(() => {
+    setLoading(false)
+  }, 3000)
+  return <WithLoadingComp isLoading={loading} />
+} */
+
+// Portal 组件
+/*
+const App = ({ children }: any) => {
+  console.log('children', children)
+  const [loading, setLoading] = useState(true)
+  setTimeout(() => {
+    setLoading(false)
+  }, 3000)
+  if (loading) return createPortal(children, document.body)
+  return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件</h1>
+}
+*/
+
+// type Props = {
+//   children: ReactElement<any, string | JSXElementConstructor<any>>
+// }
+
+type Props = {
+  children?: ReactElement
+}
+
+const App = ({ children }: Props) => {
+  console.log('children', children)
+  // const [loading, setLoading] = useState(true)
+  // setTimeout(() => {
+  //   setLoading(false)
+  // }, 3000)
+  // const cloneChildren = cloneElement(children, {
+  //   // 可以在这里修改 props
+  // })
+  console.log('isValidElement(children)', isValidElement(children))
+  // console.log('isValidElement(cloneChildren)', isValidElement(cloneChildren))
+  // if (loading) return cloneChildren
+  // return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件-克隆组件</h1>
+  if (isValidElement(children)) return children
+  return <h1>人口组件没有children</h1>
+}
+
+const container = document.getElementById('container')!
+const root = createRoot(container)
+root.render(<App />)
+setTimeout(() => {
+  root.unmount()
+}, 3000)
 
 export default App
