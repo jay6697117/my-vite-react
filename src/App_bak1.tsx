@@ -2,7 +2,7 @@
 // import { createPortal } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import './App.css'
-import { useState, cloneElement, ReactElement, isValidElement } from 'react'
+import {  ReactElement, isValidElement } from 'react'
 
 // import CustomComp from './components/CustomComp'
 // import Child from './components/Child'

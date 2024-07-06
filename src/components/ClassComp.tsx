@@ -1,4 +1,4 @@
-import { Component, PureComponent, memo } from 'react'
+import {  memo } from 'react'
 
 // export default class ClassComp extends Component {
 //   render() {

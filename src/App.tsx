@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState, useEffect } from 'react'
+import { FC, ReactElement, useEffect, useRef } from 'react'
 import './App.css'
 
 type Props = {
@@ -25,6 +25,7 @@ type Props = {
 //   )
 // }
 
+/*
 const App: FC<Props> = (props: Props) => {
   // console.log('props:', props)
   const [posts, setPosts] = useState([])
@@ -44,6 +45,24 @@ const App: FC<Props> = (props: Props) => {
   }, [posts]);
 
   return <div>{JSON.stringify(posts)}</div>
+}
+*/
+
+const App: FC<Props> = (props: Props) => {
+  console.log('props', props)
+  const ref = useRef(null)
+  console.log('立刻 ref 1:', ref)
+
+  useEffect(() => {
+    // 执行一些只需要在组件挂载时运行一次的操作
+    console.log('挂载 ref 2:', ref)
+    return () => {
+      // 这里是清理函数，如果需要的话，它会在组件卸载时执行
+      console.log('卸载 ref 3:', ref)
+    }
+  }, []) // 空依赖数组确保效果只运行一次
+
+  return <div className='app' ref={ref}>{props.children}</div>
 }
 
 export default App
