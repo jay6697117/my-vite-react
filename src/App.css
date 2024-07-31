@@ -6,3 +6,8 @@
   padding: 1.25rem;
   background-color: skyblue;
 }
+
+.fancy-button {
+  margin-top: 1rem;
+  width: 10rem;
+}

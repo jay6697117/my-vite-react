@@ -1,68 +1,86 @@
-import { FC, ReactElement, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import './App.css'
 
 type Props = {
   [x: string]: any
-  children?: ReactElement
+  children?: React.ReactElement
 }
 
-// const App: FC<Props> = (props: Props) => {
-//   console.log('props:', props)
-//   const [count, setCount] = useState(0)
-//   console.log('count', count)
+const UserNameContext = React.createContext('')
 
-//   const add = () => {
-//     setCount(count+1)
-//   }
-
-//   return (
-//     <>
-//       <h1>{count}</h1>
-//       <button className='bg-slate-300' onClick={add}>
-//         +
-//       </button>
-//     </>
-//   )
-// }
-
-/*
-const App: FC<Props> = (props: Props) => {
-  // console.log('props:', props)
-  const [posts, setPosts] = useState([])
-
+const FancyButton: React.FC<Props> = React.forwardRef((props, ref: React.ForwardedRef<HTMLButtonElement>) => {
+  console.log('%c挂载 ref 11:', 'color: purple; font-size: 16px;', ref)
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(response => response.json())
-      .then(posts => {
-        console.log('posts 1:', posts)
-        return setPosts(posts)
-      });
-  }, []);
+    // 执行一些只需要在组件挂载时运行一次的操作
+    console.log('%c挂载 ref 22:', 'color: purple; font-size: 16px;', ref)
+    return () => {
+      // 这里是清理函数，如果需要的话，它会在组件卸载时执行
+      console.log('%c卸载 ref 33:', 'color: red; font-size: 16px;', ref)
+    }
+  }, [ref]) // 空依赖数组确保效果只运行一次
+  const handleClick = () => {
+    alert('click')
+  }
+  return (
+    <button ref={ref} className='fancy-button' onClick={handleClick}>
+      {props.children}
+    </button>
+  )
+})
 
-  useEffect(() => {
-    // 这个副作用仅在 count 改变时执行
-    console.log('posts 2:', posts)
-  }, [posts]);
-
-  return <div>{JSON.stringify(posts)}</div>
-}
-*/
-
-const App: FC<Props> = (props: Props) => {
+const App: React.FC<Props> = (props: Props) => {
   console.log('props', props)
-  const ref = useRef(null)
-  console.log('立刻 ref 1:', ref)
+  const domRef = useRef(null)
+  const ref1 = React.createRef()
+  console.log('立刻 domRef 1:', domRef)
+
+  const [username, setUsername] = useState('张三')
+
+  setTimeout(() => {
+    setUsername('李四')
+  }, 2000)
 
   useEffect(() => {
     // 执行一些只需要在组件挂载时运行一次的操作
-    console.log('挂载 ref 2:', ref)
+    console.log('挂载 domRef 2:', domRef)
     return () => {
       // 这里是清理函数，如果需要的话，它会在组件卸载时执行
-      console.log('卸载 ref 3:', ref)
+      console.log('卸载 domRef 3:', domRef)
     }
   }, []) // 空依赖数组确保效果只运行一次
 
-  return <div className='app' ref={ref}>{props.children}</div>
+  // ref 不可以设置到组件上，只能设置到元素上
+  return (
+    <UserNameContext.Provider value={username}>
+      <div className='app'>
+        <div ref={domRef} className='h-[10rem] bg-blue-400'>
+          {props.children}
+        </div>
+        <FancyButton ref={ref1}>
+          <span>Click me!</span>
+        </FancyButton>
+        <br />
+        <hr />
+        <br />
+        <Layout />
+      </div>
+    </UserNameContext.Provider>
+  )
+}
+
+const Layout = () => {
+  return (
+    <div className='bg-red-300 p-8'>
+      <h1>Layout组件</h1>
+      <hr />
+      <User />
+    </div>
+  )
+}
+
+const User = () => {
+  const username = useContext(UserNameContext)
+  return <h1>User组件:{username}</h1>
 }
 
 export default App
