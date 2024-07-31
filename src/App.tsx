@@ -53,7 +53,7 @@ const App: React.FC<Props> = (props: Props) => {
   return (
     <UserNameContext.Provider value={username}>
       <div className='app'>
-        <div ref={domRef} className='h-[10rem] bg-blue-400'>
+        <div ref={domRef} className='h-[10rem] bg-blue-500'>
           {props.children}
         </div>
         <FancyButton ref={ref1}>
