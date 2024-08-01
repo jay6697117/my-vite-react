@@ -1,14 +1,27 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import {
+  type FC,
+  type ReactElement,
+  type ForwardedRef,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+  createRef,
+  createContext,
+  forwardRef,
+  memo
+} from 'react'
 import './App.css'
 
 type Props = {
   [x: string]: any
-  children?: React.ReactElement
+  children?: ReactElement
 }
 
-const UserNameContext = React.createContext('')
+const UserNameContext = createContext('')
 
-const FancyButton: React.FC<Props> = React.forwardRef((props, ref: React.ForwardedRef<HTMLButtonElement>) => {
+const FancyButton: FC<Props> = forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
   console.log('%c挂载 ref 11:', 'color: purple; font-size: 16px;', ref)
   useEffect(() => {
     // 执行一些只需要在组件挂载时运行一次的操作
@@ -28,10 +41,10 @@ const FancyButton: React.FC<Props> = React.forwardRef((props, ref: React.Forward
   )
 })
 
-const App: React.FC<Props> = (props: Props) => {
+const App: FC<Props> = (props: Props) => {
   console.log('props', props)
   const domRef = useRef(null)
-  const ref1 = React.createRef()
+  const ref1 = createRef()
   console.log('立刻 domRef 1:', domRef)
 
   const [username, setUsername] = useState('张三')
@@ -39,6 +52,11 @@ const App: React.FC<Props> = (props: Props) => {
   setTimeout(() => {
     setUsername('李四')
   }, 2000)
+
+  const [count, setCount] = useState(0)
+  const handleBtnClick = useCallback(() => {
+    setCount(count => count + 1)
+  }, [])
 
   useEffect(() => {
     // 执行一些只需要在组件挂载时运行一次的操作
@@ -63,6 +81,11 @@ const App: React.FC<Props> = (props: Props) => {
         <hr />
         <br />
         <Layout />
+        <br />
+        <hr />
+        <br />
+        <h1>count: {count}</h1>
+        <MemoButton onClick={handleBtnClick} />
       </div>
     </UserNameContext.Provider>
   )
@@ -82,5 +105,12 @@ const User = () => {
   const username = useContext(UserNameContext)
   return <h1>User组件:{username}</h1>
 }
+
+function Button({ onClick }: { onClick: () => void }) {
+  console.log('button render')
+  return <button className='fancy-button' onClick={onClick}>count++</button>
+}
+
+const MemoButton = memo(Button)
 
 export default App
