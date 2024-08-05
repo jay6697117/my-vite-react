@@ -1,136 +1,116 @@
-// import { JSX } from 'react/jsx-runtime'
-// import { createPortal } from 'react-dom'
-import { createRoot } from 'react-dom/client'
+import {
+  type FC,
+  type ReactElement,
+  type ForwardedRef,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+  createRef,
+  createContext,
+  forwardRef,
+  memo
+} from 'react'
 import './App.css'
-import { useState, cloneElement, ReactElement, isValidElement } from 'react'
-
-// import CustomComp from './components/CustomComp'
-// import Child from './components/Child'
-// import Error from './components/Error'
-// import Loading from './components/Loading'
-// import { CustomCompProps } from './types'
-// import Layout from './components/Layout'
-// import ClassComp from './components/ClassComp'
-// import Form from './components/Form'
-
-/* const App: FC = () => {
-  const customCompProps: CustomCompProps = { name: 'hello', age: 22 }
-  const isError = true
-  const isLoading = false
-
-  return (
-    <div className='app'>
-      <div className='bg-slate-300 p-8' style={{ border: '10px solid red' }}>
-        Hello, JSX
-      </div>
-      <CustomComp {...customCompProps}>{isError ? <Error /> : isLoading ? <Loading /> : <Child />}</CustomComp>
-      <CustomComp {...customCompProps}>
-        {isError && <Error />}
-        {isLoading && <Loading />}
-        <Child />
-      </CustomComp>
-    </div>
-  )
-} */
-
-// import UserNameContext from './contexts/UserNameContext'
-// interface LayoutProps {
-//   name?: string
-//   age?: number
-// }
-
-// const App = () => {
-//   const username = '张三'
-//   // const layoutProps: LayoutProps = { name: 'hello', age: 22 }
-
-//   return (
-//     <UserNameContext.Provider value={username}>
-//       <Layout {...layoutProps} >
-//         <span className='text-red-700'>Layout children</span>
-//       </Layout>
-//       <Layout />
-//       <ClassComp />
-//     </UserNameContext.Provider>
-//   )
-// }
-
-// const App = () => {
-//   const submit = (data: any) => {
-//     console.log('父组件data: ', data)
-//   }
-//   return <Form onSubmit={submit} />
-// }
-
-// HOC
-/*
-function MyComponent(props: { name: string }) {
-  return <div className='p-4 bg-slate-100 text-[4rem]'>hello {props.name}</div>
-}
-
-function Loading() {
-  return <div className='p-4 bg-slate-100 text-red-600 text-[4rem]'>loading 666...</div>
-}
-
-const withLoadingFn = (MyComp: (props: { name: string }) => JSX.Element) => {
-  return (props: { isLoading: boolean }) => {
-    if (props.isLoading) return <Loading />
-    return <MyComp name='111' />
-  }
-}
-
-const WithLoadingComp = withLoadingFn(MyComponent)
-
-const App = () => {
-  const [loading, setLoading] = useState(true)
-  setTimeout(() => {
-    setLoading(false)
-  }, 3000)
-  return <WithLoadingComp isLoading={loading} />
-} */
-
-// Portal 组件
-/*
-const App = ({ children }: any) => {
-  console.log('children', children)
-  const [loading, setLoading] = useState(true)
-  setTimeout(() => {
-    setLoading(false)
-  }, 3000)
-  if (loading) return createPortal(children, document.body)
-  return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件</h1>
-}
-*/
-
-// type Props = {
-//   children: ReactElement<any, string | JSXElementConstructor<any>>
-// }
 
 type Props = {
+  [x: string]: any
   children?: ReactElement
 }
 
-const App = ({ children }: Props) => {
-  console.log('children', children)
-  // const [loading, setLoading] = useState(true)
-  // setTimeout(() => {
-  //   setLoading(false)
-  // }, 3000)
-  // const cloneChildren = cloneElement(children, {
-  //   // 可以在这里修改 props
-  // })
-  console.log('isValidElement(children)', isValidElement(children))
-  // console.log('isValidElement(cloneChildren)', isValidElement(cloneChildren))
-  // if (loading) return cloneChildren
-  // return <h1 className='w-full h-full bg-slate-100 text-[4rem] fixed  flex justify-center items-center'>我是App组件-克隆组件</h1>
-  if (isValidElement(children)) return children
-  return <h1>人口组件没有children</h1>
+const UserNameContext = createContext('')
+
+const FancyButton: FC<Props> = forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
+  console.log('%c挂载 ref 11:', 'color: purple; font-size: 16px;', ref)
+  useEffect(() => {
+    // 执行一些只需要在组件挂载时运行一次的操作
+    console.log('%c挂载 ref 22:', 'color: purple; font-size: 16px;', ref)
+    return () => {
+      // 这里是清理函数，如果需要的话，它会在组件卸载时执行
+      console.log('%c卸载 ref 33:', 'color: red; font-size: 16px;', ref)
+    }
+  }, [ref]) // 空依赖数组确保效果只运行一次
+  const handleClick = () => {
+    alert('click')
+  }
+  return (
+    <button ref={ref} className='fancy-button' onClick={handleClick}>
+      {props.children}
+    </button>
+  )
+})
+
+const App: FC<Props> = (props: Props) => {
+  console.log('props', props)
+  const domRef = useRef(null)
+  const ref1 = createRef()
+  console.log('立刻 domRef 1:', domRef)
+
+  const [username, setUsername] = useState('张三')
+
+  setTimeout(() => {
+    setUsername('李四')
+  }, 2000)
+
+  const [count, setCount] = useState(0)
+  const handleBtnClick = useCallback(() => {
+    setCount(count => count + 1)
+  }, [])
+
+  useEffect(() => {
+    // 执行一些只需要在组件挂载时运行一次的操作
+    console.log('挂载 domRef 2:', domRef)
+    return () => {
+      // 这里是清理函数，如果需要的话，它会在组件卸载时执行
+      console.log('卸载 domRef 3:', domRef)
+    }
+  }, []) // 空依赖数组确保效果只运行一次
+
+  // ref 不可以设置到组件上，只能设置到元素上
+  return (
+    <UserNameContext.Provider value={username}>
+      <div className='app'>
+        <div ref={domRef} className='h-[10rem] bg-blue-500'>
+          {props.children}
+        </div>
+        <FancyButton ref={ref1}>
+          <span>Click me!</span>
+        </FancyButton>
+        <br />
+        <hr />
+        <br />
+        <Layout />
+        <br />
+        <hr />
+        <br />
+        <h1>count: {count}</h1>
+        <MemoButton onClick={handleBtnClick} />
+      </div>
+    </UserNameContext.Provider>
+  )
 }
 
-const container = document.getElementById('container')!
-const root = createRoot(container)
-root.render(<App />)
-setTimeout(() => {
-  root.unmount()
-}, 3000)
+const Layout = () => {
+  return (
+    <div className='bg-red-300 p-8'>
+      <h1>Layout组件</h1>
+      <hr />
+      <User />
+    </div>
+  )
+}
+
+const User = () => {
+  const username = useContext(UserNameContext)
+  return <h1>User组件:{username}</h1>
+}
+
+function Button({ onClick }: { onClick: () => void }) {
+  console.log('button render')
+  return <button className='fancy-button' onClick={onClick}>count++</button>
+}
+
+const MemoButton = memo(Button)
 
 export default App
