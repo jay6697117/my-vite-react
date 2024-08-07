@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Button } from 'antd'
-import { Divider } from 'antd'
+import { type CompProps } from '@/types'
+import { Button, Divider } from 'antd'
 import style from './index.module.less'
 
-const Child: React.FC<any> = props => {
+const Child: React.FC<CompProps> = (props: CompProps) => {
   const { flag, getNumber, children } = props
   const [number, setNumber] = useState<number>(0)
   const handleClick = () => {
