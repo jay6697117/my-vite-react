@@ -1,6 +1,6 @@
 import Parent from '@/components/Parent'
 import { type CustomCompProps } from './types'
-import './App.less'
+import '@/styles/App.less'
 
 // App组件
 const App: React.FC<CustomCompProps> = (props: CustomCompProps) => {

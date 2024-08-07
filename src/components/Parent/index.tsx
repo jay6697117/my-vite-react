@@ -14,7 +14,7 @@ const Parent: React.FC<any> = () => {
     <>
       <div>我是父组件</div>
       <Button type='primary' onClick={handleChangeFlag} className='my-2'>
-        切换状态
+        切换状态:{JSON.stringify(flag)}
       </Button>
       <div>父组件的number: {number}</div>
       <Child flag={flag} getNumber={handleGetNumber}>大家好，我是小杜杜，一起玩转Hooks吧！</Child>

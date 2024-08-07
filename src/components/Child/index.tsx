@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from 'antd'
-import { Divider } from "antd";
-import style from './index.module.less';
+import { Divider } from 'antd'
+import style from './index.module.less'
 
 const Child: React.FC<any> = props => {
   const { flag, getNumber, children } = props
@@ -12,9 +12,9 @@ const Child: React.FC<any> = props => {
     getNumber(newNumber)
   }
   return (
-    <div style={{ border: '1px solid #000', padding: 20 }}>
+    <div style={{ border: '1px solid #000', padding: 20, background: flag ? 'skyblue' : 'lightgreen' }}>
       <div>我是子组件</div>
-      <Divider className={style['divider-style-custom']}  />
+      <Divider className={style['divider-style-custom']} />
       <div>父组件传递的flag：{JSON.stringify(flag)}</div>
       <div>父组件传递的children：{children}</div>
       <Divider className={style['divider-style-custom']} />
