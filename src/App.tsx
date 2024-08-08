@@ -3,7 +3,7 @@ import Parent from '@/components/Parent'
 import { Spin } from 'antd'
 import { type CompProps } from '@/types'
 import '@/styles/App.less'
-import { ThemeProvider } from './theme-context'
+import { ThemeProvider } from '@/context/theme-context'
 
 // App组件
 const App: React.FC<CompProps> = () => {
@@ -21,8 +21,8 @@ const App: React.FC<CompProps> = () => {
   }, []) // 空依赖数组，表示只在组件挂载和卸载时执行
 
   return (
-    <ThemeProvider>
-      <div className='app'>
+    <div className='app'>
+      <ThemeProvider>
         {loading ? (
           <div className='spin-container'>
             <Spin size='large' />
@@ -30,8 +30,8 @@ const App: React.FC<CompProps> = () => {
         ) : (
           <Parent />
         )}
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   )
 }
 
