@@ -12,7 +12,7 @@ const App: React.FC<CompProps> = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false)
-    }, 1500)
+    }, 2000)
 
     // 清除定时器
     return () => {
@@ -22,15 +22,15 @@ const App: React.FC<CompProps> = () => {
 
   return (
     <div className='app'>
-      <ThemeProvider>
-        {loading ? (
-          <div className='spin-container'>
-            <Spin size='large' />
-          </div>
-        ) : (
+      {loading ? (
+        <div className='spin-container'>
+          <Spin size='large' />
+        </div>
+      ) : (
+        <ThemeProvider>
           <Parent />
-        )}
-      </ThemeProvider>
+        </ThemeProvider>
+      )}
     </div>
   )
 }

@@ -1,12 +1,12 @@
 import { useState, useContext } from 'react'
 import { Button } from 'antd'
 import Child from '@/components/Child'
-import { ThemeContext } from '@/context/theme-context'
+import { type ThemeContextProps, ThemeContext } from '@/context/theme-context'
 
 const Parent: React.FC<any> = () => {
   const [flag, setFlag] = useState<boolean>(true)
   const [number, setNumber] = useState<number>(0)
-  const { theme } = useContext<{ [x: string]: any }>(ThemeContext)
+  const { theme } = useContext<ThemeContextProps>(ThemeContext)
 
   const handleChangeFlag = () => setFlag(v => !v)
   const handleGetNumber = (v: number) => {

@@ -30,13 +30,17 @@ const themesContext: { [x: string]: any } = {
   }
 }
 
-interface ThemeContextProps {
-  theme: string
+export interface ThemeContextProps {
+  theme: { [x: string]: any }
   themes: any
   setTheme: (theme: string) => void
 }
 
-export const ThemeContext = React.createContext<ThemeContextProps | undefined>(undefined)
+export const ThemeContext = React.createContext<ThemeContextProps>({
+  theme: themesContext.light,
+  themes: themesContext,
+  setTheme: () => {}
+})
 
 interface ThemeProviderProps {
   children: React.ReactNode
@@ -46,7 +50,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [themeContext, setThemeContext] = useState(themesContext.light)
 
   const handleRadioChange = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value)
     const val: string = e.target.value as string
     setValue(e.target.value)
     setThemeContext(themesContext[val])
