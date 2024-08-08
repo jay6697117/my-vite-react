@@ -1,3 +1,4 @@
+import React from 'react';
 import Parent from '@/components/Parent'
 import { Divider } from 'antd'
 import { type CompProps } from '@/types'
