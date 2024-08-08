@@ -21,9 +21,9 @@ const themesContext: { [x: string]: any } = {
     buttomType: 'primary'
   },
   gray: {
-    color: 'green',
+    color: 'darkgreen',
     background: '#aaa',
-    border: '4px solid green',
+    border: '4px solid purple',
     padding: '20px',
     type: 'gray',
     buttomType: 'dashed'

@@ -13,7 +13,7 @@ const Parent: React.FC<any> = () => {
     setNumber(v)
   }
   return (
-    <div style={theme}>
+    <div style={{ ...theme, height: 'calc(100% - 71px)', overflowY: 'auto' }}>
       <div className='mb-2'>我是父组件</div>
       <Button type={theme.buttomType} onClick={handleChangeFlag} className='mb-2'>
         切换状态:{JSON.stringify(flag)}

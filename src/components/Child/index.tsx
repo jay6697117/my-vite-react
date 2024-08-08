@@ -8,7 +8,6 @@ const Child: React.FC<CompProps> = (props: CompProps) => {
   const { flag, getNumber, children } = props
   const [number, setNumber] = useState<number>(0)
   const { theme } = useContext<ThemeContextProps>(ThemeContext)
-
   const handleClick = () => {
     const newNumber = number + 10
     setNumber(newNumber)
@@ -16,7 +15,7 @@ const Child: React.FC<CompProps> = (props: CompProps) => {
   }
 
   return (
-    <div style={{ border: '2px dashed purple', padding: '16px' }}>
+    <div style={{ border: theme.border, padding: '15px' }}>
       <div>我是子组件</div>
       <Divider className={style['divider-style-custom']} />
       <div>父组件传递的flag：{JSON.stringify(flag)}</div>
