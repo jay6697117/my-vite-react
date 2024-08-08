@@ -16,7 +16,7 @@ const Child: React.FC<CompProps> = (props: CompProps) => {
   }
 
   return (
-    <div style={theme}>
+    <div style={{ border: '2px dashed purple', padding: '16px' }}>
       <div>我是子组件</div>
       <Divider className={style['divider-style-custom']} />
       <div>父组件传递的flag：{JSON.stringify(flag)}</div>

@@ -13,16 +13,16 @@ const Parent: React.FC<any> = () => {
     setNumber(v)
   }
   return (
-    <>
-      <div>我是父组件</div>
-      <Button type={theme.buttomType} onClick={handleChangeFlag} className='my-2'>
+    <div style={theme}>
+      <div className='mb-2'>我是父组件</div>
+      <Button type={theme.buttomType} onClick={handleChangeFlag} className='mb-2'>
         切换状态:{JSON.stringify(flag)}
       </Button>
-      <div>父组件的number: {number}</div>
+      <div className='mb-2'>父组件的number: {number}</div>
       <Child flag={flag} getNumber={handleGetNumber}>
         大家好，我是小杜杜，一起玩转Hooks吧！
       </Child>
-    </>
+    </div>
   )
 }
 

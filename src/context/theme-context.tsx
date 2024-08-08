@@ -7,7 +7,7 @@ const themesContext: { [x: string]: any } = {
   light: {
     color: '#000',
     background: '#E86452',
-    border: '1px solid #E86452',
+    border: '4px solid blue',
     padding: '20px',
     type: 'light',
     buttomType: 'default'
@@ -15,15 +15,15 @@ const themesContext: { [x: string]: any } = {
   dark: {
     color: '#fff',
     background: '#5B8FF9',
-    border: '1px solid #5B8FF9',
+    border: '4px solid red',
     padding: '20px',
     type: 'dark',
     buttomType: 'primary'
   },
   gray: {
-    color: '#000',
-    background: '#ccc',
-    border: '1px solid #ccc',
+    color: 'green',
+    background: '#aaa',
+    border: '4px solid green',
     padding: '20px',
     type: 'gray',
     buttomType: 'dashed'
@@ -64,7 +64,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           </Radio>
         ))}
       </Radio.Group>
-      <Divider style={{ background: 'red' }} />
+      <Divider style={{ background: themeContext.background }} />
       {children}
     </ThemeContext.Provider>
   )
