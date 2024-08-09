@@ -4,20 +4,20 @@ import type { RadioChangeEvent } from 'antd'
 
 //主题颜色
 const themesContext: { [x: string]: any } = {
-  light: {
+  red: {
     color: '#000',
     background: '#E86452',
     border: '4px solid blue',
     padding: '20px',
-    type: 'light',
+    type: 'red',
     buttomType: 'default'
   },
-  dark: {
+  blue: {
     color: '#fff',
     background: '#5B8FF9',
     border: '4px solid red',
     padding: '20px',
-    type: 'dark',
+    type: 'blue',
     buttomType: 'primary'
   },
   gray: {
@@ -46,8 +46,8 @@ interface ThemeProviderProps {
   children: React.ReactNode
 }
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [value, setValue] = useState('light')
-  const [themeContext, setThemeContext] = useState(themesContext.light)
+  const [value, setValue] = useState('red')
+  const [themeContext, setThemeContext] = useState(themesContext.red)
 
   const handleRadioChange = (e: RadioChangeEvent) => {
     const val: string = e.target.value as string
